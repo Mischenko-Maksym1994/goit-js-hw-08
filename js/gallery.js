@@ -79,3 +79,21 @@ const markup = images.map(({preview, original, description}) =>
 </li>`).join("");
 
 gallery.insertAdjacentHTML("beforeend", markup);
+
+gallery.addEventListener("click", e => {
+  e.preventDefault();
+  
+  if (e.target.nodeName !== "IMG") {
+    return console.log('користувач клікнув між кнопками');
+  }
+
+  const selectedImg = e.target.dataset.source; // користувач клікнув на кнопку і ми маємо доступ до її атрибутів
+  console.log(selectedImg);
+  
+  const instance = basicLightbox.create(`
+	<img src="${selectedImg}" width="1112" height="640">	
+`);
+  
+  instance.show();
+});
+
