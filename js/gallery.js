@@ -68,7 +68,7 @@ const gallery = document.querySelector(".gallery");
 
 const markup = images.map(({preview, original, description}) => 
 `<li class="gallery-item">
-  <a class="gallery-link" href="large-image.jpg">
+  <a class="gallery-link" href="${original}">
     <img
       class="gallery-image"
       src="${preview}"
@@ -82,25 +82,26 @@ gallery.insertAdjacentHTML("beforeend", markup);
 
 gallery.addEventListener("click", openCloseImg);
 
+
 function openCloseImg(e) {
   e.preventDefault();
-  if (e.target.nodeName !== "IMG") {
-    return console.log('користувач клікнув між кнопками');
-  }
-
-  const selectedImg = e.target.dataset.source; // користувач клікнув на кнопку і ми маємо доступ до її атрибутів
-  console.log(selectedImg);
-  const instance = basicLightbox.create(`
-	<img src="${selectedImg}" width="1112" height="640">	
-`);
+  if (e.target.nodeName !== "IMG") return;
   
-  instance.show();
+  const selectedImg = e.target.dataset.source;
+  const instance = basicLightbox.create(`
+	<img src="${selectedImg}" width="1112" height="640">`);
+  onShow();
 
-  window.addEventListener("keydown", closeImg);
-  function closeImg(e) {
-    if (e.code === "Escape") {
+      function onShow() {
+      instance.show();
+      window.addEventListener("keydown", onClose);   
+      onClose();
+      }
+
+      function onClose(e) {
+      if (e.code === `Escape`) {
       instance.close();
-      Window.removeEventListener("keydown", closeImg);
-    }
-  }
+      window.removeEventListener("keydown", onClose);    
+        };
+      };
 }
