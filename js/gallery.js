@@ -90,16 +90,13 @@ function openCloseImg(e) {
   const selectedImg = e.target.dataset.source;
   const instance = basicLightbox.create(`
 	<img src="${selectedImg}" width="1112" height="640">`);
-  onShow();
 
-      function onShow() {
       instance.show();
-      window.addEventListener("keydown", onClose);   
+      window.addEventListener("click", onClose);   
       onClose();
-      }
 
-      function onClose(e) {
-      if (e.code === `Escape`) {
+      function onClose() {
+      if (e.target === "click") {
       instance.close();
       window.removeEventListener("keydown", onClose);    
         };
